@@ -14,22 +14,24 @@ export default class SwipeBookshelfs extends Component {
 
     state = {
         randomBookshelfId:'',
+        loggedInUser: '',
         loader: true,
         liked: '',
         disliked: '',
         errorMessage:'',
-        newMatch: false
+        newMatch: false,
+        matches: 0,
     }
 
     bookService = new BookService()
 
     componentDidMount() {
+        this.setState({
+            matches: this.props.userInSession.matches.length
+        })
         this.getRandomBookshelf()
     }
 
-    componentDidUpdate() {
-        console.log('update');
-    }
 
     //load random bookshelfs ready for swipe//
     getRandomBookshelf = () => {
@@ -43,12 +45,12 @@ export default class SwipeBookshelfs extends Component {
     }
 
     saveLikeOrDislike = (disliked, liked) => {
-        const matchesBeforeUpdate = this.props.userInSession.matches
+        const matchesBeforeUpdate = this.state.matches
 
         if(liked){
             this.bookService.updateLikes(liked) 
             .then(res => {
-                !matchesBeforeUpdate.length <= res.matches.length && this.setState({ newMatch: true})
+                matchesBeforeUpdate < res.matches.length && this.setState({ newMatch: true, matches: this.state.matches+1})
                 this.setState({liked: '' })
                 this.getRandomBookshelf()
             })

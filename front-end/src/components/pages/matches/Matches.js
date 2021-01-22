@@ -22,13 +22,10 @@ export default class Matches extends Component {
     userService = new UserService()
 
     componentDidMount() {
+        console.log('component did mount is called')
         this.setState({
             loggedInUser: this.props.userInSession,
         }, () => this.getMatches())
-    }
-
-    componentDidUpdate() {
-        console.log('update');
     }
 
     matchedBookshelfnOwner = () => {
@@ -74,7 +71,7 @@ export default class Matches extends Component {
             return <Redirect to={{pathname: '/profile', state: { id: this.state.ownerId}}}/>
         }
 
-        if(this.props.userInSession.matches.length < 1 ){
+        if(this.state.matches.length === 0 ){
             return(   
                 <div className='container-matches'>
                     <Navbar userInSession={this.state.loggedInUser} getTheUser={this.props.getTheUser}/>
@@ -104,7 +101,6 @@ export default class Matches extends Component {
                                             <h2>{combination.owner.profileName}</h2>
                                         </div>
                                     </div>
-                                    {/* <hr></hr> */}
                                     <Bookshelf bookshelfId={combination._id}/>
                                 </div>
                             )

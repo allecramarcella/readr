@@ -11,7 +11,6 @@
     flex-direction: column;
     justify-content: center;
     align-items:center;
-    text-align:center;
 }
 
 .first-container-profile {
@@ -37,6 +36,8 @@
 .first-container-profile p {
     font-size:1rem;
     font-weight:500;
+    color: var(--dark-blue-color);
+    font-weight: 600;
 }
 
 .first-container-profile span {
@@ -47,7 +48,8 @@
 
 .first-container-profile table {
     text-align: start;
-    margin: 0 20px;
+    margin: 15px 20px;
+    text-transform: capitalize;
 }
 
 .first-container-profile td{
@@ -66,7 +68,7 @@
     justify-content: center;
     width: 100vw;
     height: 100%;
-    /* background-color: var(--paper-color); */
+    margin: 60px 0;
 }
 
 
@@ -89,9 +91,8 @@
         height: 100vh;
         align-items: center;
         justify-content: center;
+        margin: 0;
     }
-
-
 
     .main-container-profile {
         flex-direction: row;

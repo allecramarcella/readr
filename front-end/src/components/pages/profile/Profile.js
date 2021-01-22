@@ -18,7 +18,6 @@ export default class Profile extends Component {
         this.state = {
             loggedInUser: '',
             targetOwner:'',
-            userProfile: '',
             redirect: false,
             loader: true
         }
@@ -29,10 +28,15 @@ export default class Profile extends Component {
 
 
     componentDidMount(){
-        console.log('mount')
         this.setState({
             loggedInUser: this.props.userInSession
         }, () => this.checkOwnerProfile(this.props.location.state && this.props.location.state.id))
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if(prevProps.location.key !== this.props.location.key){
+            this.checkOwnerProfile()
+        }
     }
 
 
@@ -48,11 +52,12 @@ export default class Profile extends Component {
             .catch(err => console.log(err))
         } else {
             this.setState({ 
-                userProfile: this.props.userInSession,
+                targetOwner: '',
                 loader: false,
             })
         }
     }
+
 
     render() {
 
@@ -71,15 +76,15 @@ export default class Profile extends Component {
                                 <tbody>       
                                 <tr>
                                     <td><p>Profile Name:</p></td>
-                                    <td><span>{this.state.loggedInUser.profileName}</span></td>
+                                    <td><span>{this.state.targetOwner.profileName}</span></td>
                                 </tr>    
                                 <tr>
                                     <td><p>Match Preference:</p></td>
-                                    <td><span>{this.state.loggedInUser.matchPreference}</span></td>
+                                    <td><span>{this.state.targetOwner.matchPreference}</span></td>
                                 </tr>
                                 <tr>
                                     <td><p>Prefered Contact Method:</p></td>
-                                    <td><span>{this.state.loggedInUser.contactInfo}</span></td>
+                                    <td><span>{this.state.targetOwner.contactInfo}</span></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -93,7 +98,9 @@ export default class Profile extends Component {
                     </div>
                 </div>     
             )
-        } else if(this.state.userProfile){ 
+        } 
+        
+        else { 
             return (
                 <div>
                      <Navbar userInSession={this.state.loggedInUser} getTheUser={this.props.getTheUser} />
